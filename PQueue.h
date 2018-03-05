@@ -22,6 +22,7 @@ class PQueue{
         void moveUp();
         void moveDown();
         void elementSwap(unsigned a, unsigned b);
+        ~PQueue();
 };
 
 #endif

@@ -2,7 +2,6 @@
 
 PQueue::PQueue(){
     heap = std::vector<Element*> (1, NULL);
-    //heap.push_back(NULL);
     enqueueCount = 0;
 }
 
@@ -56,7 +55,8 @@ void PQueue::moveDown(){
         if(*heap[leftChild] < *heap[current]){
             elementSwap(leftChild, current);
             current = leftChild;
-        }else if(rightChild < heap.size() && *heap[rightChild] < *heap[current]){
+        }else if(rightChild < heap.size() &&
+            *heap[rightChild] < *heap[current]){
             elementSwap(rightChild, current);
             current = rightChild;
         }else{
@@ -64,6 +64,13 @@ void PQueue::moveDown(){
         }
         leftChild = current << 1;
         rightChild = leftChild + 1;
+    }
+}
+
+PQueue::~PQueue(){
+    for(std::vector<Element*>::iterator i = heap.begin();
+        i != heap.end(); i++){
+        delete *i;
     }
 }
 
