@@ -15,9 +15,8 @@ void PQueue::enqueue (char d_in, unsigned p_in){
 }
 
 char PQueue::dequeue (){
-    char out = heap.back()->data;
+    char out = heap[1]->data;
     heap[1] = heap.back();
-    delete heap.back();
     heap.pop_back();
     moveDown();
     return out;
@@ -51,14 +50,15 @@ void PQueue::moveDown(){
     unsigned current = 1;
     unsigned leftChild = current << 1;
     unsigned rightChild = leftChild + 1;
+    unsigned greaterChild;
     while (leftChild < heap.size()){
-        if(*heap[leftChild] < *heap[current]){
-            elementSwap(leftChild, current);
-            current = leftChild;
-        }else if(rightChild < heap.size() &&
-            *heap[rightChild] < *heap[current]){
-            elementSwap(rightChild, current);
-            current = rightChild;
+        greaterChild = leftChild;
+        if (rightChild < heap.size() &&
+            *heap[leftChild] < *heap[rightChild])
+            greaterChild = rightChild;
+        if(*heap[current] < *heap[greaterChild]){
+            elementSwap(greaterChild, current);
+            current = greaterChild;
         }else{
             break;
         }
@@ -74,3 +74,12 @@ PQueue::~PQueue(){
     }
 }
 
+void PQueue::debugPrint(){
+    std::cout << '[';
+    std::vector<Element*>::iterator i = heap.begin();
+    i++;
+    for (i; i != heap.end(); i++){
+        std::cout << (*i)->data << ',';
+    }        
+    std::cout << ']' << std::endl;
+}

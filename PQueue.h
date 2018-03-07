@@ -1,4 +1,5 @@
 #include <cstddef>
+#include <iostream>
 #include <vector>
 
 #ifndef PQUEUE_H
@@ -9,6 +10,7 @@ class PQueue{
         PQueue();
         void enqueue (char d_in, unsigned p_in);
         char dequeue ();
+        ~PQueue();
     private:
         unsigned enqueueCount;
         struct Element {
@@ -22,7 +24,7 @@ class PQueue{
         void moveUp();
         void moveDown();
         void elementSwap(unsigned a, unsigned b);
-        ~PQueue();
+        void debugPrint();
 };
 
 #endif
