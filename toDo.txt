@@ -1,0 +1,2 @@
+- what happens if enqueueCount == maxValue?
+- unit test
