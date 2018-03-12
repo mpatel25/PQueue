@@ -1,14 +1,13 @@
 #include <cstddef>
 #include <iostream>
-#include <vector>
 
 #ifndef PQUEUE_H
 #define PQUEUE_H
 
 class PQueue{
     public:
-        PQueue();
-        void enqueue (char d_in, unsigned p_in);
+        PQueue(unsigned size);
+        unsigned enqueue (char d_in, unsigned p_in);
         char dequeue ();
         ~PQueue();
     private:
@@ -20,7 +19,9 @@ class PQueue{
             Element (char d_in, unsigned p_in, unsigned e_in);
             bool operator< (Element right);
         };
-        std::vector<Element*> heap;
+        Element** heap;
+        unsigned heapSize;
+        unsigned currentArraySize;
         void moveUp();
         void moveDown();
         void elementSwap(unsigned a, unsigned b);
