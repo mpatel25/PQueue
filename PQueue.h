@@ -8,6 +8,7 @@ class PQueue{
         PQueue(unsigned size);
         bool enqueue (char d_in, unsigned p_in);
         bool dequeue (char& out);
+        void debugPrint();
         ~PQueue();
     private:
         unsigned enqueueCount;
@@ -24,7 +25,6 @@ class PQueue{
         void moveUp();
         void moveDown();
         void elementSwap(unsigned a, unsigned b);
-        void debugPrint();
         void restampElements();
         void radixSortForEntryStamp(Element** array, unsigned size);
 };
