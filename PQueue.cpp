@@ -30,8 +30,9 @@ bool PQueue::enqueue (char d_in, unsigned p_in){
     // Move the new element up to right location, according to the priority
     moveUp();
     // If enqueue count is max value (2^32-1 for 4byte integers) then
-    //      restamp all the elements
-    if (enqueueCount == ((unsigned)0-(unsigned)1)) restampElements();
+    //      restamp all the elements and reset enqueueCount
+    if (enqueueCount == ((unsigned)0-(unsigned)1)) 
+        restampElementsAndResetEnqueueCount();
     return true;
 }
 
@@ -131,7 +132,7 @@ void PQueue::debugPrint(){
 }
 
 // To restamp all the elements 
-void PQueue::restampElements(){
+void PQueue::restampElementsAndResetEnqueueCount(){
     // New container to store entryStamp sorted elements
     Element** sortedForEntryStamp = new Element*[currentArraySize-1];
     // Copy all the elements from the heap
@@ -142,6 +143,7 @@ void PQueue::restampElements(){
     // Restamp all the elements in order
     for (unsigned i=0; i<(currentArraySize-1); ++i)
         sortedForEntryStamp[i]->entryStamp = i;
+    enqueueCount = currentArraySize-1;
     delete[] sortedForEntryStamp;
 }
 

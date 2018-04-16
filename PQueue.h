@@ -25,7 +25,7 @@ class PQueue{
         void moveUp();
         void moveDown();
         void elementSwap(unsigned a, unsigned b);
-        void restampElements();
+        void restampElementsAndResetEnqueueCount();
         void radixSortForEntryStamp(Element** array, unsigned size);
 };
 
