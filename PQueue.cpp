@@ -21,8 +21,8 @@ bool PQueue::enqueue (char d_in, unsigned p_in){
     // Insert new element at the end of the heap
     // Use enqueue count as the entry stamp
     heap[currentHeapSize] = new Element(d_in, p_in, enqueueCount);
-    currentHeapSize++;
-    enqueueCount++;
+    ++currentHeapSize;
+    ++enqueueCount;
     // Move the new element up to right location, according to the priority
     moveUp();
     // If enqueue count is max value (2^32-1 for 4byte integers) then
@@ -44,7 +44,7 @@ bool PQueue::dequeue (char& out){
     delete heap[0];
     heap[0] = heap[currentHeapSize-1];
     heap[currentHeapSize-1] = NULL;
-    currentHeapSize--;
+    --currentHeapSize;
     // Move the top element down to right location, according to the priority
     moveDown();
     // If the heap is empty reset the enqueue count (optimization)
