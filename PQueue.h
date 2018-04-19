@@ -21,7 +21,7 @@ class PQueue{
         };
         Element** heap;
         unsigned maxHeapSize;
-        unsigned currentArraySize;
+        unsigned currentHeapSize;
         void moveUp();
         void moveDown();
         void elementSwap(unsigned a, unsigned b);

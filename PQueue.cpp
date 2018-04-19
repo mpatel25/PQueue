@@ -4,7 +4,7 @@
 PQueue::PQueue(unsigned size){
     heap = new Element*[size];
     maxHeapSize = size;
-    currentArraySize = 0;
+    currentHeapSize = 0;
     enqueueCount = 0;
 }
 
@@ -17,11 +17,11 @@ PQueue::Element::Element(char d_in, unsigned p_in, unsigned e_in):
 // p_in: new priority
 bool PQueue::enqueue (char d_in, unsigned p_in){
     // If the heap is full return false
-    if (currentArraySize == maxHeapSize) return false;
+    if (currentHeapSize == maxHeapSize) return false;
     // Insert new element at the end of the heap
     // Use enqueue count as the entry stamp
-    heap[currentArraySize] = new Element(d_in, p_in, enqueueCount);
-    currentArraySize++;
+    heap[currentHeapSize] = new Element(d_in, p_in, enqueueCount);
+    currentHeapSize++;
     enqueueCount++;
     // Move the new element up to right location, according to the priority
     moveUp();
@@ -36,19 +36,19 @@ bool PQueue::enqueue (char d_in, unsigned p_in){
 // Out is where the return value is stored
 bool PQueue::dequeue (char& out){
     // If the heap is empty return false
-    if (currentArraySize == 0) return false; 
+    if (currentHeapSize == 0) return false; 
     // Output the Character with the highest priority and the highest priority
     //      is at the head of the heap
     out = heap[0]->data;
     // Delete the head and replace with lowest leaf in the heap
     delete heap[0];
-    heap[0] = heap[currentArraySize-1];
-    heap[currentArraySize-1] = NULL;
-    currentArraySize--;
+    heap[0] = heap[currentHeapSize-1];
+    heap[currentHeapSize-1] = NULL;
+    currentHeapSize--;
     // Move the top element down to right location, according to the priority
     moveDown();
     // If the heap is empty reset the enqueue count (optimization)
-    if (currentArraySize == 1) enqueueCount=0;
+    if (currentHeapSize == 1) enqueueCount=0;
     return true;
 }
 
@@ -73,7 +73,7 @@ bool PQueue::Element::operator< (Element right){
 // To shift the new element up after it is inserted 
 //      as the last element in the heap
 void PQueue::moveUp(){
-    unsigned current = currentArraySize-1;
+    unsigned current = currentHeapSize-1;
     unsigned parent = heapParent(current);
     // Shift up until the priority of the parent element is greater
     //      or the new element is at the top of the heap
@@ -93,9 +93,9 @@ void PQueue::moveDown(){
     unsigned greaterChild;
     // Shift down until both children are than the parent
     // If swap is required, swap with the element with the higher priority
-    while (leftChild < currentArraySize){
+    while (leftChild < currentHeapSize){
         greaterChild = leftChild;
-        if (rightChild < currentArraySize &&
+        if (rightChild < currentHeapSize &&
             *heap[leftChild] < *heap[rightChild])
             greaterChild = rightChild;
         if(*heap[current] < *heap[greaterChild]){
@@ -126,7 +126,7 @@ inline unsigned PQueue::heapChildRight(unsigned parent){
 
 // Destructor for the Priority Queue
 PQueue::~PQueue(){
-    for (unsigned i = 0; i != currentArraySize; ++i){
+    for (unsigned i = 0; i != currentHeapSize; ++i){
         delete heap[i];
     }
     delete[] heap;
@@ -135,9 +135,9 @@ PQueue::~PQueue(){
 // To print the current heap to stdout (only for debugging)
 void PQueue::debugPrint(){
     std::cout << '[';
-    for (unsigned i = 0; i < currentArraySize; ++i){
+    for (unsigned i = 0; i < currentHeapSize; ++i){
         std::cout << heap[i]->data;
-        if (i<(currentArraySize-1)) std::cout << ',';
+        if (i<(currentHeapSize-1)) std::cout << ',';
     }        
     std::cout << ']' << std::endl;
 }
@@ -145,16 +145,16 @@ void PQueue::debugPrint(){
 // To restamp all the elements 
 void PQueue::restampElementsAndResetEnqueueCount(){
     // New container to store entryStamp sorted elements
-    Element** sortedForEntryStamp = new Element*[currentArraySize];
+    Element** sortedForEntryStamp = new Element*[currentHeapSize];
     // Copy all the elements from the heap
-    for (unsigned i=0; i<currentArraySize; ++i)
+    for (unsigned i=0; i<currentHeapSize; ++i)
         sortedForEntryStamp[i] = heap[i];
     // Radix sort all the elements for entry stamps
-    radixSortForEntryStamp(sortedForEntryStamp, currentArraySize);
+    radixSortForEntryStamp(sortedForEntryStamp, currentHeapSize);
     // Restamp all the elements in order
-    for (unsigned i=0; i<currentArraySize; ++i)
+    for (unsigned i=0; i<currentHeapSize; ++i)
         sortedForEntryStamp[i]->entryStamp = i;
-    enqueueCount = currentArraySize-1;
+    enqueueCount = currentHeapSize-1;
     delete[] sortedForEntryStamp;
 }
 
