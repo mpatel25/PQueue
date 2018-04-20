@@ -154,7 +154,7 @@ void PQueue::restampElementsAndResetEnqueueCount(){
     // Restamp all the elements in order
     for (unsigned i=0; i<currentHeapSize; ++i)
         sortedForEntryStamp[i]->entryStamp = i;
-    enqueueCount = currentHeapSize-1;
+    enqueueCount = currentHeapSize;
     delete[] sortedForEntryStamp;
 }
 
